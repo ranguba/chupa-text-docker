@@ -65,7 +65,7 @@ WORKDIR /home/chupa-text
 ENV RAILS_ENV=production
 ENV PATH=/var/lib/gems/2.3.0/bin:$PATH
 
-RUN git clone --depth 2 https://github.com/ranguba/chupa-text-http-server.git
+RUN git clone --depth 1 https://github.com/ranguba/chupa-text-http-server.git
 
 COPY \
    home/chupa-text/chupa-text-http-server/* \
