@@ -38,6 +38,7 @@ services:
     environment:
       http_proxy: http://proxy:3128/
       https_proxy: http://proxy:3128/
+      RAILS_SERVE_STATIC_FILES: "true"
     volumes:
       - /var/log/chupa-text/rails:/home/chupa-text/chupa-text-http-server/log:z
     depends_on:
