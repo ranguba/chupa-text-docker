@@ -66,6 +66,7 @@ ENV \
   RAILS_ENV=production \
   PATH=/var/lib/gems/2.3.0/bin:$PATH
 
+ENV LOCAL_CHUPA_TEXT_REVISION_FOR_UPDATE_DOCKER=3
 RUN git clone --depth 1 https://github.com/ranguba/chupa-text-http-server.git
 
 COPY \
@@ -83,6 +84,6 @@ RUN \
   sudo rm -rf /var/cache/apt/archives/*
 
 RUN \
-  RAILS_ENV=production bin/rails assets:precompile
+  bin/rails assets:precompile
 
 CMD /bin/bash
