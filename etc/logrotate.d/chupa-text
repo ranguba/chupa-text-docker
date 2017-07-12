@@ -1,0 +1,14 @@
+/var/log/chupa-text/*/* {
+  daily
+  missingok
+  rotate 365
+  compress
+  delaycompress
+  notifempty
+  dateformat .%Y%m%d
+  dateyesterday
+  sharedscripts
+  postrotate
+    systemctl restart chupa-text
+  endscript
+}
