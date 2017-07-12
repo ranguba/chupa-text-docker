@@ -152,7 +152,7 @@ has the following keys:
   * `data`: The image data encoded by `encoding`.
 
   * `encoding`: This is optional. If `data` is encoded by base64, this
-    value is `"base64"`. If data isn't encoded, this key doesn't
+    value is `"base64"`. If `data` isn't encoded, this key doesn't
     exist. ChupaText needs binary data because JSON is text format. If
     `data` is text data such as SVG, this key doesn't exist.
 
