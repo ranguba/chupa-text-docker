@@ -62,8 +62,9 @@ RUN adduser chupa-text sudo
 USER chupa-text
 WORKDIR /home/chupa-text
 
-ENV RAILS_ENV=production
-ENV PATH=/var/lib/gems/2.3.0/bin:$PATH
+ENV \
+  RAILS_ENV=production \
+  PATH=/var/lib/gems/2.3.0/bin:$PATH
 
 RUN git clone --depth 1 https://github.com/ranguba/chupa-text-http-server.git
 
