@@ -28,4 +28,4 @@ RUN \
 
 COPY start.sh /
 
-CMD /bin/bash
+CMD ./start.sh
