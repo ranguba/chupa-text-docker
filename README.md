@@ -153,8 +153,9 @@ has the following keys:
 
   * `encoding`: This is optional. If `data` is encoded by base64, this
     value is `"base64"`. If `data` isn't encoded, this key doesn't
-    exist. ChupaText needs binary data because JSON is text format. If
-    `data` is text data such as SVG, this key doesn't exist.
+    exist. ChupaText needs binary data but JSON doesn't support binary
+    data because JSON is a text format. If `data` is text data such as
+    SVG, this key doesn't exist.
 
 You can use ChupaText as command line tool by the following command
 line:
