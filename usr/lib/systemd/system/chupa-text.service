@@ -1,0 +1,16 @@
+[Unit]
+Description=ChupaText - Text extraction service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+WorkingDirectory=/var/lib/chupa-text
+ExecStart=/usr/bin/docker-compose up --abort-on-container-exit
+ExecStop=/usr/bin/docker-compose down
+# Because docker-compose up --abort-on-container-exit returns 0. :<
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
