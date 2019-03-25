@@ -1,4 +1,4 @@
-# Copyright (C) 2017  Kouhei Sutou <kou@clear-code.com>
+# Copyright (C) 2017-2019  Kouhei Sutou <kou@clear-code.com>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -14,10 +14,10 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
-FROM ubuntu:17.04
+FROM ubuntu:18.04
 MAINTAINER groonga
 
-RUN ln -fs /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
+RUN ln -fs /usr/share/zoneinfo/UTC /etc/localtime
 
 RUN \
   apt update && \
@@ -30,12 +30,9 @@ RUN \
     git \
     libapr1-dev \
     libaprutil1-dev \
-    libcurl4-openssl-dev \
     libreoffice \
-    libssl-dev \
     make \
     nodejs \
-    nodejs-legacy \
     npm \
     ruby \
     ruby-dev \
@@ -64,7 +61,7 @@ WORKDIR /home/chupa-text
 
 ENV \
   RAILS_ENV=production \
-  PATH=/var/lib/gems/2.3.0/bin:$PATH
+  PATH=/var/lib/gems/2.5.0/bin:$PATH
 
 ENV LOCAL_CHUPA_TEXT_REVISION_FOR_UPDATE_DOCKER=4
 RUN git clone --depth 1 https://github.com/ranguba/chupa-text-http-server.git
