@@ -4,9 +4,9 @@
 
 Install Docker:
 
-  * [For Debian](https://docs.docker.com/engine/installation/linux/docker-ce/debian/)
+  * For Debian: Use `docker-compose` package in stretch-backports.
 
-  * [For Ubuntu](https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/)
+  * For Ubuntu: Use `docker-compose` package.
 
   * [For CentOS 7](https://docs.docker.com/engine/installation/linux/docker-ce/centos/)
 
@@ -55,6 +55,18 @@ Install logrotate configuration:
 ```
 
 Install systemd service file:
+
+For Debian and Ubuntu:
+
+```console
+% sudo ln -fs \
+    /var/lib/chupa-text/lib/systemd/system/chupa-text.service \
+                       /lib/systemd/system/chupa-text.service
+% sudo systemctl daemon-reload
+% sudo systemctl enable chupa-text
+```
+
+For CentOS:
 
 ```console
 % sudo ln -fs \
