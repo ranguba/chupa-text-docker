@@ -1,4 +1,22 @@
-/var/log/chupa-text/*/* {
+/var/log/chupa-text/rails/*.log {
+  # Replace these IDs to names
+  su 1000 1000
+  daily
+  missingok
+  rotate 365
+  compress
+  delaycompress
+  notifempty
+  dateformat .%Y%m%d
+  dateyesterday
+  sharedscripts
+  postrotate
+    systemctl restart chupa-text
+  endscript
+}
+
+/var/log/chupa-text/proxy/*.log {
+  su proxy proxy
   daily
   missingok
   rotate 365
