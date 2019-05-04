@@ -22,8 +22,8 @@ services:
       context: proxy
     command:
       - ./start.sh
-    ports:
-      - 3128:3128
+    expose:
+      - "3128"
     volumes:
       - /var/log/chupa-text/proxy:/var/log/squid:z
   chupa-text:
@@ -34,7 +34,7 @@ services:
     command:
       - ./start.sh
     ports:
-      - 20080:3000
+      - "127.0.0.1:20080:3000"
     environment:
       http_proxy: http://proxy:3128/
       https_proxy: http://proxy:3128/
