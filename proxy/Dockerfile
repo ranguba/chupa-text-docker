@@ -17,6 +17,8 @@
 FROM ubuntu:18.04
 MAINTAINER groonga
 
+ENV DEBIAN_FRONTEND noninteractive
+
 RUN ln -fs /usr/share/zoneinfo/UTC /etc/localtime
 
 RUN \
