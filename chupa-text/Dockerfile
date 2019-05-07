@@ -49,6 +49,9 @@ RUN npm install -g yarn
 COPY \
    etc/sudoers.d/* \
   /etc/sudoers.d/
+RUN \
+  chmod 600 /etc/sudoers.d/* && \
+  chown root:root /etc/sudoers.d/*
 
 RUN \
   useradd \
