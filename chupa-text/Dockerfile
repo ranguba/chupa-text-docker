@@ -14,7 +14,7 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
-FROM ubuntu:18.10
+FROM ubuntu:19.04
 MAINTAINER groonga
 
 RUN ln -fs /usr/share/zoneinfo/UTC /etc/localtime
