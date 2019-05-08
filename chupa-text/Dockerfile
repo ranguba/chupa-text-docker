@@ -17,7 +17,9 @@
 FROM ubuntu:19.04
 MAINTAINER groonga
 
-ENV DEBIAN_FRONTEND noninteractive
+RUN \
+  echo "debconf debconf/frontend select Noninteractive" | \
+    debconf-set-selections
 
 RUN ln -fs /usr/share/zoneinfo/UTC /etc/localtime
 
