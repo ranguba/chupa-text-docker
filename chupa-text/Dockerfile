@@ -21,8 +21,6 @@ RUN \
   echo "debconf debconf/frontend select Noninteractive" | \
     debconf-set-selections
 
-RUN ln -fs /usr/share/zoneinfo/UTC /etc/localtime
-
 RUN \
   apt update && \
   apt install -y -V \
