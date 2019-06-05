@@ -6,6 +6,23 @@ dockerfile_content = File.read(dockerfile_path)
 /#{version_key}=(.+?)$/ =~ dockerfile_content
 version = $1
 
+task :default => :run
+
+desc "Build images"
+task :build do
+  cd("proxy") do
+    sh("docker", "build", "-t", "ranguba/chupa-text:proxy", ".")
+  end
+  cd("chupa-text") do
+    sh("docker", "build", "-t", "ranguba/chupa-text:latest", ".")
+  end
+end
+
+desc "Run"
+task :run => :build do
+  sh("docker-compose", "up")
+end
+
 namespace :version do
   desc "Bump version"
   task :bump do

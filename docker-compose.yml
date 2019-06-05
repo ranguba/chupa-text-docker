@@ -18,8 +18,7 @@ version: "3.3"
 
 services:
   proxy:
-    build:
-      context: proxy
+    image: ranguba/chupa-text:proxy
     command:
       - ./start.sh
     expose:
@@ -27,10 +26,7 @@ services:
     volumes:
       - /var/log/chupa-text/proxy:/var/log/squid:z
   chupa-text:
-    build:
-      context: chupa-text
-      # cache_from:
-      #   - groonga/chupa-text:latest
+    image: ranguba/chupa-text:latest
     command:
       - ./start.sh
     ports:
