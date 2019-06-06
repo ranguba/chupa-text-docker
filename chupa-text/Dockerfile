@@ -82,7 +82,7 @@ WORKDIR /home/chupa-text/chupa-text-http-server
 RUN \
   sudo apt update && \
   bundle install --without development test && \
-  gem install passenger && \
+  sudo gem install passenger && \
   sudo rm -rf /var/lib/apt/lists/* && \
   sudo rm -rf /var/cache/apt/archives/*
 
