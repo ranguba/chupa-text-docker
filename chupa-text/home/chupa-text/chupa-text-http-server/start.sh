@@ -25,4 +25,4 @@ sudo -H chown -R $(id --name --user): log
  echo "  secret_key_base: $(bin/rails secret)") > \
   config/secrets.yml
 
-xvfb-run bin/rails server
+xvfb-run passenger start
