@@ -33,11 +33,11 @@ Clone this repository:
 % sudo mv chupa-text-docker /var/lib/chupa-text
 ```
 
-Build Docker images. It takes long time...:
+Pull Docker images:
 
 ```console
 % cd /var/lib/chupa-text
-% sudo /usr/local/bin/docker-compose build --force-rm
+% sudo /usr/local/bin/docker-compose pull
 ```
 
 Create log directory:
