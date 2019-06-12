@@ -1,8 +1,11 @@
 # -*- ruby -*-
 
 version_key = "CHUPA_TEXT_DOCKER_VERSION"
-dockerfile_path = "chupa-text/Dockerfile"
-dockerfile_content = File.read(dockerfile_path)
+dockerfile_paths = [
+  "chupa-text/ubuntu/Dockerfile",
+  "chupa-text/debian/Dockerfile",
+]
+dockerfile_content = File.read(dockerfile_paths[0])
 /#{version_key}=(.+?)$/ =~ dockerfile_content
 version = $1
 
@@ -28,12 +31,15 @@ namespace :version do
   task :bump do
     new_version = ENV["VERSION"]
     raise "No ENV['VERSION']" if new_version.nil?
-    new_dockerfile_content =
-      dockerfile_content
-        .gsub(/#{version_key}=.+?$/,
-              "#{version_key}=#{new_version}")
-    File.open(dockerfile_path, "w") do |dockerfile|
-      dockerfile.print(new_dockerfile_content)
+    dockerfile_paths.each do |dockerfile_path|
+      dockerfile_content = File.read(dockerfile_path)
+      new_dockerfile_content =
+        dockerfile_content
+          .gsub(/#{version_key}=.+?$/,
+                "#{version_key}=#{new_version}")
+      File.open(dockerfile_path, "w") do |dockerfile|
+        dockerfile.print(new_dockerfile_content)
+      end
     end
   end
 end
