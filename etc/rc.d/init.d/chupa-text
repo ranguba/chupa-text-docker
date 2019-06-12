@@ -27,7 +27,6 @@ start() {
     docker run \
 	   --name $prog \
 	   --detach \
-	   --rm \
 	   --publish 127.0.0.1:20080:3000 \
 	   groonga/chupa-text:debian-latest
     RETVAL=$?
@@ -41,7 +40,10 @@ stop() {
     docker kill $prog
     RETVAL=$?
     echo
-    [ $RETVAL -eq 0 ] && rm -f /var/lock/subsys/$prog
+    if [ $RETVAL -eq 0 ]; then
+        docker rm $prog
+        rm -f /var/lock/subsys/$prog
+    fi
     return $RETVAL
 }
 
