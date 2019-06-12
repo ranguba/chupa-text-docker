@@ -73,7 +73,7 @@ ENV \
   RAILS_ENV=production \
   PATH=/var/lib/gems/2.3.0/bin:$PATH
 
-ENV CHUPA_TEXT_DOCKER_VERSION=2019.06.10.1
+ENV CHUPA_TEXT_DOCKER_VERSION=2019.06.12.1
 RUN git clone --depth 1 https://github.com/ranguba/chupa-text-http-server.git
 
 COPY \
