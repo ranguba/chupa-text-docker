@@ -66,7 +66,7 @@ For Debian and Ubuntu:
 % sudo systemctl enable chupa-text
 ```
 
-For CentOS:
+For CentOS 7:
 
 ```console
 % sudo ln -fs \
@@ -80,6 +80,21 @@ Run ChupaText service:
 
 ```console
 % sudo systemctl start chupa-text
+```
+
+For CentOS 6:
+
+```console
+% sudo ln -fs \
+    /var/lib/chupa-text/etc/rc.d/init.d/chupa-text \
+                       /etc/rc.d/init.d/chupa-text
+% sudo /sbin/chkconfig chupa-text on
+```
+
+Run ChupaText service:
+
+```console
+% sudo service chupa-text start
 ```
 
 ## Usage
