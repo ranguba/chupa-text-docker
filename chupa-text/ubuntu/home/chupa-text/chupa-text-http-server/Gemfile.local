@@ -16,6 +16,7 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
+gem "chupa-text-decomposer-abiword"
 gem "chupa-text-decomposer-html"
 gem "chupa-text-decomposer-libreoffice-excel"
 gem "chupa-text-decomposer-libreoffice-powerpoint"

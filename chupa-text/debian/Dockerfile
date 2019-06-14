@@ -28,6 +28,7 @@ RUN \
 RUN \
   apt update && \
   apt install -y -V \
+    abiword \
     apache2 \
     apache2-dev \
     curl \
