@@ -11,6 +11,7 @@ ExecStart=/usr/local/bin/docker-compose up --abort-on-container-exit
 ExecStop=/usr/local/bin/docker-compose down
 # Because docker-compose up --abort-on-container-exit returns 0. :<
 Restart=always
+TimeoutSec=5min
 
 [Install]
 WantedBy=multi-user.target
