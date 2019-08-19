@@ -17,27 +17,36 @@ Install Git:
 For Debian or Ubuntu:
 
 ```console
-% sudo apt install -y -V git
+% sudo -H apt install -y -V git
 ```
 
 For CentOS:
 
 ```console
-% sudo yum install -y git
+% sudo -H yum install -y git
 ```
 
 Clone this repository:
 
 ```console
 % git clone https://github.com/ranguba/chupa-text-docker.git
-% sudo mv chupa-text-docker /var/lib/chupa-text
+% sudo -H mv chupa-text-docker /var/lib/chupa-text
 ```
 
 Pull Docker images:
 
 ```console
 % cd /var/lib/chupa-text
-% sudo /usr/local/bin/docker-compose pull
+% sudo -H /usr/local/bin/docker-compose pull
+```
+
+If you want to change subnet for internal network from
+`172.18.0.0/24`, copy `.env.example` to `.env` and change the content:
+
+```console
+% cd /var/lib/chupa-text
+% sudo -H cp -a .env{.example,}
+% sudo -H editor .env
 ```
 
 Create log directory:
@@ -63,7 +72,7 @@ For Debian and Ubuntu:
     /var/lib/chupa-text/lib/systemd/system/chupa-text.service \
                        /lib/systemd/system/chupa-text.service
 % sudo systemctl daemon-reload
-% sudo systemctl enable chupa-text
+% sudo systemctl enable --now chupa-text
 ```
 
 For CentOS 7:
@@ -73,13 +82,7 @@ For CentOS 7:
     /var/lib/chupa-text/usr/lib/systemd/system/chupa-text.service \
                        /usr/lib/systemd/system/chupa-text.service
 % sudo systemctl daemon-reload
-% sudo systemctl enable chupa-text
-```
-
-Run ChupaText service:
-
-```console
-% sudo systemctl start chupa-text
+% sudo systemctl enable --now chupa-text
 ```
 
 For CentOS 6:

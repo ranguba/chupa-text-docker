@@ -47,3 +47,9 @@ services:
       - /var/log/chupa-text/rails:/home/chupa-text/chupa-text-http-server/log:z
     depends_on:
       - proxy
+
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: ${CHUPA_TEXT_DOCKER_SUBNET:-172.18.0.0/24}
