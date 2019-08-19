@@ -85,21 +85,6 @@ For CentOS 7:
 % sudo systemctl enable --now chupa-text
 ```
 
-For CentOS 6:
-
-```console
-% sudo ln -fs \
-    /var/lib/chupa-text/etc/rc.d/init.d/chupa-text \
-                       /etc/rc.d/init.d/chupa-text
-% sudo /sbin/chkconfig chupa-text on
-```
-
-Run ChupaText service:
-
-```console
-% sudo service chupa-text start
-```
-
 ## Usage
 
 You can use ChupaText via HTTP or command line.
