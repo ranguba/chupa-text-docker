@@ -52,13 +52,13 @@ If you want to change subnet for internal network from
 Create log directory:
 
 ```console
-% sudo mkdir -p /var/log/chupa-text
+% sudo -H mkdir -p /var/log/chupa-text
 ```
 
 Install logrotate configuration:
 
 ```console
-% sudo cp \
+% sudo -H cp \
     /var/lib/chupa-text/etc/logrotate.d/chupa-text \
                        /etc/logrotate.d/chupa-text
 ```
@@ -68,21 +68,21 @@ Install systemd service file:
 For Debian and Ubuntu:
 
 ```console
-% sudo ln -fs \
+% sudo -H ln -fs \
     /var/lib/chupa-text/lib/systemd/system/chupa-text.service \
                        /lib/systemd/system/chupa-text.service
-% sudo systemctl daemon-reload
-% sudo systemctl enable --now chupa-text
+% sudo -H systemctl daemon-reload
+% sudo -H systemctl enable --now chupa-text
 ```
 
 For CentOS 7:
 
 ```console
-% sudo ln -fs \
+% sudo -H ln -fs \
     /var/lib/chupa-text/usr/lib/systemd/system/chupa-text.service \
                        /usr/lib/systemd/system/chupa-text.service
-% sudo systemctl daemon-reload
-% sudo systemctl enable --now chupa-text
+% sudo -H systemctl daemon-reload
+% sudo -H systemctl enable --now chupa-text
 ```
 
 ## Usage
