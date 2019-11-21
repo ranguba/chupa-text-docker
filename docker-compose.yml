@@ -52,4 +52,4 @@ networks:
   default:
     ipam:
       config:
-        - subnet: ${CHUPA_TEXT_DOCKER_SUBNET:-172.18.0.0/24}
+        - subnet: ${CHUPA_TEXT_DOCKER_SUBNET:-172.19.0.0/24}
