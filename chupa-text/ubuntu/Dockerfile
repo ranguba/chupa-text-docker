@@ -14,7 +14,7 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
-FROM ubuntu:19.04
+FROM ubuntu:20.04
 MAINTAINER groonga
 
 RUN \
@@ -67,7 +67,7 @@ WORKDIR /home/chupa-text
 
 ENV \
   RAILS_ENV=production \
-  PATH=/var/lib/gems/2.5.0/bin:$PATH
+  PATH=/var/lib/gems/2.7.0/bin:$PATH
 
 ENV CHUPA_TEXT_DOCKER_VERSION=2019.08.23.1
 RUN git clone --depth 1 https://github.com/ranguba/chupa-text-http-server.git
