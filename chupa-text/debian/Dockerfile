@@ -1,4 +1,4 @@
-# Copyright (C) 2017-2019  Kouhei Sutou <kou@clear-code.com>
+# Copyright (C) 2017-2020  Sutou Kouhei <kou@clear-code.com>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -14,7 +14,7 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
-FROM debian:stretch
+FROM debian:buster
 MAINTAINER groonga
 
 RUN \
@@ -72,7 +72,7 @@ WORKDIR /home/chupa-text
 
 ENV \
   RAILS_ENV=production \
-  PATH=/var/lib/gems/2.3.0/bin:$PATH
+  PATH=/var/lib/gems/2.5.0/bin:$PATH
 
 ENV CHUPA_TEXT_DOCKER_VERSION=2019.08.23.1
 RUN git clone --depth 1 https://github.com/ranguba/chupa-text-http-server.git
