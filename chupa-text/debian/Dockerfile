@@ -39,15 +39,14 @@ RUN \
     libaprutil1-dev \
     libreoffice \
     make \
+    nodejs \
+    npm \
     ruby \
     ruby-dev \
     sudo \
     tzdata \
     xvfb \
     zlib1g-dev && \
-  apt install -y -V -t stretch-backports \
-    nodejs \
-    npm && \
   rm -rf /var/lib/apt/lists/* && \
   rm -rf /var/cache/apt/archives/*
 

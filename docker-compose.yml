@@ -21,6 +21,8 @@ services:
     image: groonga/chupa-text:proxy
     build:
       context: proxy
+      cache_from:
+        - groonga/chupa-text:proxy
     command:
       - ./start.sh
     expose:
@@ -28,11 +30,11 @@ services:
     volumes:
       - /var/log/chupa-text/proxy:/var/log/squid:z
   chupa-text:
-    image: groonga/chupa-text:latest
+    image: groonga/chupa-text:${CHUPA_TEXT_DOCKER_DISTRIBUTION:-ubuntu}-latest
     build:
-      context: chupa-text/ubuntu
-      # cache_from:
-      #   - groonga/chupa-text:latest
+      context: chupa-text/${CHUPA_TEXT_DOCKER_DISTRIBUTION:-ubuntu}
+      cache_from:
+        - groonga/chupa-text:${CHUPA_TEXT_DOCKER_DISTRIBUTION:-ubuntu}-latest
     command:
       - ./start.sh
     ports:
