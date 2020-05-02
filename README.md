@@ -4,7 +4,7 @@
 
 Install Docker:
 
-  * For Debian: Use `docker-compose` package in stretch-backports.
+  * For Debian: Use `docker-compose` package.
 
   * For Ubuntu: Use `docker-compose` package.
 
