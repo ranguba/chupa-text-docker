@@ -1,6 +1,4 @@
 /var/log/chupa-text/rails/*.log {
-  # Replace these IDs to names
-  su 1000 1000
   daily
   missingok
   rotate 365
@@ -16,7 +14,6 @@
 }
 
 /var/log/chupa-text/proxy/*.log {
-  su proxy proxy
   daily
   missingok
   rotate 365
