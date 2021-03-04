@@ -13,12 +13,8 @@ task :default => :run
 
 desc "Build images"
 task :build do
-  cd("proxy") do
-    sh("docker", "build", "-t", "ranguba/chupa-text:proxy", ".")
-  end
-  cd("chupa-text") do
-    sh("docker", "build", "-t", "ranguba/chupa-text:latest", ".")
-  end
+  sh("docker-compose", "build", "proxy")
+  sh("docker-compose", "build", "chupa-text")
 end
 
 desc "Run"
