@@ -29,8 +29,7 @@ For CentOS:
 Clone this repository:
 
 ```console
-% git clone https://github.com/ranguba/chupa-text-docker.git
-% sudo -H mv chupa-text-docker /var/lib/chupa-text
+% sudo -H git clone https://github.com/ranguba/chupa-text-docker.git /var/lib/chupa-text
 ```
 
 Pull Docker images:
