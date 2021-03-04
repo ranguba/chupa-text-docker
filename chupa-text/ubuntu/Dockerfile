@@ -43,6 +43,7 @@ RUN \
     tzdata \
     xvfb \
     zlib1g-dev && \
+  apt clean &&
   rm -rf /var/lib/apt/lists/* && \
   rm -rf /var/cache/apt/archives/*
 
@@ -84,6 +85,7 @@ RUN \
   sudo apt update && \
   bundle install --without development test && \
   sudo gem install passenger && \
+  sudo apt clean &&
   sudo rm -rf /var/lib/apt/lists/* && \
   sudo rm -rf /var/cache/apt/archives/*
 
