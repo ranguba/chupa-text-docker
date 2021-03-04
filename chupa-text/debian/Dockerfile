@@ -47,7 +47,7 @@ RUN \
   rm -rf /var/lib/apt/lists/* && \
   rm -rf /var/cache/apt/archives/*
 
-RUN gem install bundler
+RUN gem install bundler rake
 RUN npm install -g yarn
 
 COPY \
