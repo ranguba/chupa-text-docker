@@ -1,4 +1,4 @@
-# Copyright (C) 2017-2020  Sutou Kouhei <kou@clear-code.com>
+# Copyright (C) 2017-2021  Sutou Kouhei <kou@clear-code.com>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -83,7 +83,8 @@ RUN \
 WORKDIR /home/chupa-text/chupa-text-http-server
 RUN \
   sudo apt update && \
-  bundle install --without development test && \
+  bundle config set --local without "development test" && \
+  bundle install && \
   sudo gem install passenger && \
   sudo apt clean && \
   sudo rm -rf /var/lib/apt/lists/* && \
