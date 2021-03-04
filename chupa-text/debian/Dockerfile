@@ -22,10 +22,6 @@ RUN \
     debconf-set-selections
 
 RUN \
-  echo "deb http://deb.debian.org/debian stretch-backports main" > \
-    /etc/apt/sources.list.d/backports.list
-
-RUN \
   apt update && \
   apt install -y -V \
     abiword \
