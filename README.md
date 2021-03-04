@@ -57,7 +57,7 @@ Create log directory:
 Install logrotate configuration:
 
 ```console
-% sudo -H cp \
+% sudo -H ln -fs \
     /var/lib/chupa-text/etc/logrotate.d/chupa-text \
                        /etc/logrotate.d/chupa-text
 ```
