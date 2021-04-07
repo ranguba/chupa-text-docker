@@ -1,6 +1,6 @@
 [Unit]
 Description=ChupaText - Text extraction service
-After=network.target
+After=network.target docker.service
 
 [Service]
 Type=simple
