@@ -70,7 +70,7 @@ ENV \
   RAILS_ENV=production \
   PATH=/var/lib/gems/2.5.0/bin:$PATH
 
-ENV CHUPA_TEXT_DOCKER_VERSION=2021.03.30.0
+ENV CHUPA_TEXT_DOCKER_VERSION=2021.04.12.0
 RUN git clone --depth 1 https://github.com/ranguba/chupa-text-http-server.git
 
 COPY \
@@ -91,6 +91,7 @@ RUN \
   sudo rm -rf /var/cache/apt/archives/*
 
 RUN \
+  bin/rails yarn:install && \
   bin/rails assets:precompile
 
 CMD ./start.sh
