@@ -1,4 +1,4 @@
-# Copyright (C) 2017-2020  Sutou Kouhei <kou@clear-code.com>
+# Copyright (C) 2017-2025  Sutou Kouhei <kou@clear-code.com>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -14,7 +14,7 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
-FROM ubuntu:20.04
+FROM ubuntu:24.04
 MAINTAINER groonga
 
 RUN \

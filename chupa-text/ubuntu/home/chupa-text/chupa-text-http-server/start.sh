@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Copyright (C) 2017-2019  Kouhei Sutou <kou@clear-code.com>
+# Copyright (C) 2017-2025  Sutou Kouhei <kou@clear-code.com>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -21,8 +21,7 @@ set -u
 
 sudo -H chown -R $(id --name --user): log
 
-(echo "production:"; \
- echo "  secret_key_base: $(bin/rails secret)") > \
-  config/secrets.yml
+(echo "secret_key_base: $(bin/rails secret)") | \
+  EDITOR="tee" bin/rails credentials:edit
 
 xvfb-run passenger start

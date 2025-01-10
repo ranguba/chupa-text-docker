@@ -1,4 +1,4 @@
-# Copyright (C) 2017-2021  Sutou Kouhei <kou@clear-code.com>
+# Copyright (C) 2017-2025  Sutou Kouhei <kou@clear-code.com>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -14,7 +14,7 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
-FROM ubuntu:20.04
+FROM ubuntu:24.04
 MAINTAINER groonga
 
 RUN \
@@ -33,10 +33,11 @@ RUN \
     git \
     libapr1-dev \
     libaprutil1-dev \
+    libffi-dev \
     libreoffice \
+    libwebkit2gtk-4.1-dev \
+    libyaml-dev \
     make \
-    nodejs \
-    npm \
     ruby \
     ruby-dev \
     sudo \
@@ -47,17 +48,10 @@ RUN \
   rm -rf /var/lib/apt/lists/* && \
   rm -rf /var/cache/apt/archives/*
 
-RUN gem install bundler
 RUN \
-  curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | \
-    apt-key add - && \
-  echo "deb https://dl.yarnpkg.com/debian/ stable main" | \
-    tee /etc/apt/sources.list.d/yarn.list && \
-  apt update && \
-  apt install -y yarn && \
-  apt clean && \
-  rm -rf /var/lib/apt/lists/* && \
-  rm -rf /var/cache/apt/archives/*
+  gem install \
+    base64 \
+    bundler
 
 COPY \
    etc/sudoers.d/* \
@@ -77,9 +71,9 @@ WORKDIR /home/chupa-text
 
 ENV \
   RAILS_ENV=production \
-  PATH=/var/lib/gems/2.7.0/bin:$PATH
+  PATH=/var/lib/gems/3.2.0/bin:$PATH
 
-ENV CHUPA_TEXT_DOCKER_VERSION=2021.04.12.0
+ENV CHUPA_TEXT_DOCKER_VERSION=2025.1.10.0
 RUN git clone --depth 1 https://github.com/ranguba/chupa-text-http-server.git
 
 COPY \
@@ -92,15 +86,14 @@ RUN \
 WORKDIR /home/chupa-text/chupa-text-http-server
 RUN \
   sudo apt update && \
+  bundle config set --local path "vendor/bundle" && \
   bundle config set --local without "development test" && \
-  bundle install && \
+  bundle install --jobs=1 && \
   sudo gem install passenger && \
   sudo apt clean && \
   sudo rm -rf /var/lib/apt/lists/* && \
   sudo rm -rf /var/cache/apt/archives/*
 
-RUN \
-  bin/rails yarn:install && \
-  bin/rails webpacker:compile
+RUN bin/rails assets:precompile
 
 CMD ./start.sh
