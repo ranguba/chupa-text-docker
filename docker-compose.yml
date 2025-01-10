@@ -18,11 +18,11 @@ version: "3.3"
 
 services:
   proxy:
-    image: ghcr.io/ranguba/chupa-text:proxy
+    image: ${CHUPA_TEXT_DOCKER_IMAGE:-ghcr.io/ranguba/chupa-text-docker}:proxy
     build:
       context: proxy
       cache_from:
-        - ghcr.io/ranguba/chupa-text:proxy
+        - ${CHUPA_TEXT_DOCKER_IMAGE:-ghcr.io/ranguba/chupa-text-docker}:proxy
     command:
       - ./start.sh
     expose:
@@ -30,11 +30,11 @@ services:
     volumes:
       - /var/log/chupa-text/proxy:/var/log/squid:z
   chupa-text:
-    image: ghcr.io/ranguba/chupa-text:${CHUPA_TEXT_DOCKER_DISTRIBUTION:-ubuntu}-latest
+    image: ${CHUPA_TEXT_DOCKER_IMAGE:-ghcr.io/ranguba/chupa-text-docker}:${CHUPA_TEXT_DOCKER_DISTRIBUTION:-ubuntu}-latest
     build:
       context: chupa-text/${CHUPA_TEXT_DOCKER_DISTRIBUTION:-ubuntu}
       cache_from:
-        - ghcr.io/ranguba/chupa-text:${CHUPA_TEXT_DOCKER_DISTRIBUTION:-ubuntu}-latest
+        - ${CHUPA_TEXT_DOCKER_IMAGE:-ghcr.io/ranguba/chupa-text-docker}:${CHUPA_TEXT_DOCKER_DISTRIBUTION:-ubuntu}-latest
     command:
       - ./start.sh
     ports:
