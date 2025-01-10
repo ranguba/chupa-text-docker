@@ -2,13 +2,7 @@
 
 ## Install
 
-Install Docker:
-
-  * For Debian: Use `docker-compose` package.
-
-  * For Ubuntu: Use `docker-compose` package.
-
-  * [For CentOS 7](https://docs.docker.com/engine/installation/linux/docker-ce/centos/)
+Install Docker.
 
 [Install Docker Compose](https://docs.docker.com/compose/install/).
 
@@ -17,47 +11,47 @@ Install Git:
 For Debian or Ubuntu:
 
 ```console
-% sudo -H apt install -y -V git
+$ sudo -H apt install -y -V git
 ```
 
-For CentOS:
+For RHEL variants:
 
 ```console
-% sudo -H yum install -y git
+$ sudo -H dnf install -y git
 ```
 
 Clone this repository:
 
 ```console
-% sudo -H git clone https://github.com/ranguba/chupa-text-docker.git /var/lib/chupa-text
+$ sudo -H git clone https://github.com/ranguba/chupa-text-docker.git /var/lib/chupa-text
 ```
 
 Pull Docker images:
 
 ```console
-% cd /var/lib/chupa-text
-% sudo -H /usr/local/bin/docker-compose pull
+$ cd /var/lib/chupa-text
+$ sudo -H docker compose pull
 ```
 
 If you want to change subnet for internal network from
 `172.18.0.0/24`, copy `.env.example` to `.env` and change the content:
 
 ```console
-% cd /var/lib/chupa-text
-% sudo -H cp -a .env{.example,}
-% sudo -H editor .env
+$ cd /var/lib/chupa-text
+$ sudo -H cp -a .env{.example,}
+$ sudo -H editor .env
 ```
 
 Create log directory:
 
 ```console
-% sudo -H mkdir -p /var/log/chupa-text
+$ sudo -H mkdir -p /var/log/chupa-text
 ```
 
 Install logrotate configuration:
 
 ```console
-% sudo -H ln -fs \
+$ sudo -H ln -fs \
     /var/lib/chupa-text/etc/logrotate.d/chupa-text \
                        /etc/logrotate.d/chupa-text
 ```
@@ -67,21 +61,21 @@ Install systemd service file:
 For Debian and Ubuntu:
 
 ```console
-% sudo -H ln -fs \
+$ sudo -H ln -fs \
     /var/lib/chupa-text/lib/systemd/system/chupa-text.service \
                        /lib/systemd/system/chupa-text.service
-% sudo -H systemctl daemon-reload
-% sudo -H systemctl enable --now chupa-text
+$ sudo -H systemctl daemon-reload
+$ sudo -H systemctl enable --now chupa-text
 ```
 
-For CentOS 7:
+For RHEL variants:
 
 ```console
-% sudo -H ln -fs \
+$ sudo -H ln -fs \
     /var/lib/chupa-text/usr/lib/systemd/system/chupa-text.service \
                        /usr/lib/systemd/system/chupa-text.service
-% sudo -H systemctl daemon-reload
-% sudo -H systemctl enable --now chupa-text
+$ sudo -H systemctl daemon-reload
+$ sudo -H systemctl enable --now chupa-text
 ```
 
 ## Usage
@@ -119,7 +113,7 @@ Here is a `curl` command line to extract local PDF file at
 value:
 
 ```console
-% curl \
+$ curl \
     --form 'data=@/tmp/sample.pdf;type=application/pdf' \
     http://localhost:20080/extraction.json
 ```
@@ -185,7 +179,7 @@ If your user is a member of `docker` group, you can omit `sudo` like
 the following:
 
 ```console
-% /usr/local/bin/docker-compose \
+$ /usr/local/bin/docker-compose \
     --file /var/lib/chupa-text/docker-compose.yml \
     exec chupa-text \
       xvfb-run -a chupa-text /tmp/sample.pdf
@@ -195,11 +189,11 @@ Command line interface uses the same JSON format as Web API.
 
 ## Author
 
-  * Kouhei Sutou `<kou@clear-code.com>`
+  * Sutou Kouhei `<kou@clear-code.com>`
 
 ## License
 
 LGPL 2.1 or later.
 
-(Kouhei Sutou has a right to change the license including contributed
+(Sutou Kouhei has a right to change the license including contributed
 patches.)
