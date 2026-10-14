@@ -21,37 +21,82 @@ on:
 concurrency:
   group: ${{ github.head_ref || github.sha }}-${{ github.workflow }}
   cancel-in-progress: true
+env:
+  NEED_PUSH: ${{ github.event_name == 'push' && github.repository == 'ranguba/chupa-text-docker' }}
 jobs:
-  build:
+  chupa-text:
     name: ${{ matrix.id }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         id:
-          - "proxy"
           - "debian"
           - "ubuntu"
+    env:
+      TAGS: ghcr.io/${{ github.repository }}:${{ matrix.id }}-latest
     steps:
-      - name: Parse ID
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: ranguba/chupa-text
+          path: chupa-text-source
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+      - uses: docker/setup-buildx-action@v3
+        id: buildx
+      - uses: docker/build-push-action@v6
+        with:
+          context: chupa-text/${{ matrix.id }}
+          load: true
+          tags: ${{ env.TAGS }}
+      - name: Test
         run: |
-          set -x
-          if [ ${{ matrix.id }} == "proxy" ]; then
-            context=${{ matrix.id }}
-            tag=${{ matrix.id }}
-          else
-            context=chupa-text/${{ matrix.id }}
-            tag=${{ matrix.id }}-latest
-          fi
-          tags="ghcr.io/${GITHUB_REPOSITORY}:${tag}"
-
-          need_push="no"
-          if [ "${GITHUB_EVENT_NAME}" = "push" ]; then
-            need_push="yes"
-          fi
-          echo "CONTEXT=${context}" >> ${GITHUB_ENV}
-          echo "TAGS=${tags}" >> ${GITHUB_ENV}
-          echo "NEED_PUSH=${need_push}" >> ${GITHUB_ENV}
+          docker container run \
+            --detach \
+            --rm \
+            --name chupa-text \
+            --publish 127.0.0.1:20080:3000 \
+            ${TAGS}
+          curl \
+            --silent \
+            --show-error \
+            --fail-with-body \
+            --retry 10 \
+            --retry-delay 10 \
+            --retry-all-errors \
+            --form "data=@chupa-text-source/test/fixture/docx/one-page.docx;type=application/vnd.openxmlformats-officedocument.wordprocessingml.document" \
+            http://127.0.0.1:20080/extraction.json | \
+            tee response.json
+          jq --exit-status '[.texts[].body] == ["Page1"]' response.json
+      - name: Show logs
+        if: failure()
+        run: |
+          docker container logs chupa-text || :
+      - name: Clean up
+        if: always()
+        run: |
+          docker container rm -f chupa-text || :
+      - uses: docker/build-push-action@v6
+        id: docker_build
+        with:
+          context: chupa-text/${{ matrix.id }}
+          push: ${{ env.NEED_PUSH }}
+          tags: ${{ env.TAGS }}
+      - name: Image info
+        run: |
+          echo "ref: ${{ github.ref }}"
+          echo "tags: ${{ env.TAGS }}"
+          echo "digest: ${{ steps.docker_build.outputs.digest }}"
+  proxy:
+    name: proxy
+    runs-on: ubuntu-latest
+    env:
+      TAGS: ghcr.io/${{ github.repository }}:proxy
+    steps:
       - uses: actions/checkout@v4
       - uses: docker/login-action@v3
         with:
@@ -61,10 +106,42 @@ jobs:
       - uses: docker/setup-buildx-action@v3
         id: buildx
       - uses: docker/build-push-action@v6
+        with:
+          context: proxy
+          load: true
+          tags: ${{ env.TAGS }}
+      - name: Test
+        run: |
+          docker container run \
+            --detach \
+            --rm \
+            --name proxy \
+            --publish 127.0.0.1:3128:3128 \
+            ${TAGS}
+          curl \
+            --silent \
+            --show-error \
+            --fail-with-body \
+            --retry 15 \
+            --retry-delay 2 \
+            --retry-all-errors \
+            --proxy http://127.0.0.1:3128/ \
+            https://raw.githubusercontent.com/ranguba/chupa-text-docker/refs/heads/main/.gitignore | \
+            tee response.txt
+          diff -u <(echo "/.env") response.txt
+      - name: Show logs
+        if: failure()
+        run: |
+          docker container logs proxy || :
+      - name: Clean up
+        if: always()
+        run: |
+          docker container rm -f proxy || :
+      - uses: docker/build-push-action@v6
         id: docker_build
         with:
-          context: ${{ env.CONTEXT }}
-          push: ${{ env.NEED_PUSH == 'yes' }}
+          context: proxy
+          push: ${{ env.NEED_PUSH }}
           tags: ${{ env.TAGS }}
       - name: Image info
         run: |
