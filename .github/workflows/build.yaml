@@ -126,9 +126,9 @@ jobs:
             --retry-delay 2 \
             --retry-all-errors \
             --proxy http://127.0.0.1:3128/ \
-            https://raw.githubusercontent.com/ranguba/chupa-text-docker/refs/heads/main/.gitignore | \
+            https://raw.githubusercontent.com/${GITHUB_REPOSITORY}/${GITHUB_SHA}/.gitignore | \
             tee response.txt
-          diff -u <(echo "/.env") response.txt
+          diff -u .gitignore response.txt
       - name: Show logs
         if: failure()
         run: |
