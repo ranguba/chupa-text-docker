@@ -13,13 +13,13 @@ task :default => :run
 
 desc "Build images"
 task :build do
-  sh("docker-compose", "build", "proxy")
-  sh("docker-compose", "build", "chupa-text")
+  sh("docker", "compose", "build", "proxy")
+  sh("docker", "compose", "build", "chupa-text")
 end
 
 desc "Run"
 task :run => :build do
-  sh("docker-compose", "up")
+  sh("docker", "compose", "up")
 end
 
 namespace :version do
