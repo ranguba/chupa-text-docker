@@ -14,7 +14,7 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
-FROM ubuntu:24.04
+FROM ubuntu:26.04
 MAINTAINER groonga
 
 RUN \
@@ -69,9 +69,7 @@ RUN adduser chupa-text sudo
 USER chupa-text
 WORKDIR /home/chupa-text
 
-ENV \
-  RAILS_ENV=production \
-  PATH=/var/lib/gems/3.2.0/bin:$PATH
+ENV RAILS_ENV=production
 
 ENV CHUPA_TEXT_DOCKER_VERSION=2025.1.10.0
 RUN git clone --depth 1 https://github.com/ranguba/chupa-text-http-server.git
