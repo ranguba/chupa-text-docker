@@ -36,8 +36,8 @@ jobs:
     env:
       TAGS: ghcr.io/${{ github.repository }}:${{ matrix.id }}-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7
         with:
           repository: ranguba/chupa-text
           path: chupa-text-source
@@ -97,7 +97,7 @@ jobs:
     env:
       TAGS: ghcr.io/${{ github.repository }}:proxy
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: docker/login-action@v4
         with:
           registry: ghcr.io
