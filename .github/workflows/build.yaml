@@ -48,7 +48,7 @@ jobs:
           password: ${{ github.token }}
       - uses: docker/setup-buildx-action@v3
         id: buildx
-      - uses: docker/build-push-action@v6
+      - uses: docker/build-push-action@v7
         with:
           context: chupa-text/${{ matrix.id }}
           load: true
@@ -80,7 +80,7 @@ jobs:
         if: always()
         run: |
           docker container rm -f chupa-text || :
-      - uses: docker/build-push-action@v6
+      - uses: docker/build-push-action@v7
         id: docker_build
         with:
           context: chupa-text/${{ matrix.id }}
@@ -105,7 +105,7 @@ jobs:
           password: ${{ github.token }}
       - uses: docker/setup-buildx-action@v3
         id: buildx
-      - uses: docker/build-push-action@v6
+      - uses: docker/build-push-action@v7
         with:
           context: proxy
           load: true
@@ -137,7 +137,7 @@ jobs:
         if: always()
         run: |
           docker container rm -f proxy || :
-      - uses: docker/build-push-action@v6
+      - uses: docker/build-push-action@v7
         id: docker_build
         with:
           context: proxy
