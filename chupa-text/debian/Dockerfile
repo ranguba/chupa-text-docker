@@ -33,6 +33,7 @@ RUN \
     git \
     libapr1-dev \
     libaprutil1-dev \
+    libcairo2-dev \
     libffi-dev \
     libreoffice \
     libyaml-dev \
@@ -51,7 +52,8 @@ RUN \
   gem install \
     base64 \
     bundler \
-    rake
+    rake \
+    stringio
 
 COPY \
    etc/sudoers.d/* \
