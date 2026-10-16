@@ -56,18 +56,6 @@ $ sudo -H ln -fs \
 
 Install systemd service file:
 
-For Debian and Ubuntu:
-
-```console
-$ sudo -H ln -fs \
-    /var/lib/chupa-text/lib/systemd/system/chupa-text.service \
-                       /lib/systemd/system/chupa-text.service
-$ sudo -H systemctl daemon-reload
-$ sudo -H systemctl enable --now chupa-text
-```
-
-For RHEL variants:
-
 ```console
 $ sudo -H ln -fs \
     /var/lib/chupa-text/usr/lib/systemd/system/chupa-text.service \
