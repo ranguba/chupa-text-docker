@@ -7,9 +7,11 @@ Type=simple
 User=root
 Group=root
 WorkingDirectory=/var/lib/chupa-text
-ExecStart=/usr/bin/docker-compose up --abort-on-container-exit
-ExecStop=/usr/bin/docker-compose down
-# Because docker-compose up --abort-on-container-exit returns 0. :<
+ExecStart=/usr/bin/docker compose up --abort-on-container-exit
+ExecStop=/usr/bin/docker compose down
+# docker compose up --abort-on-container-exit returns the exit code of the first exited container.
+# For example, it returns 0 when the first exited container exits with 0 even if other containers
+# exit with non-zero later. So we need Restart=always not Restart=on-failure.
 Restart=always
 TimeoutSec=5min
 

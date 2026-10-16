@@ -2,9 +2,7 @@
 
 ## Install
 
-Install Docker.
-
-[Install Docker Compose](https://docs.docker.com/compose/install/).
+[Install Docker](https://docs.docker.com/engine/install/).
 
 Install Git:
 
@@ -169,8 +167,8 @@ You can use ChupaText as command line tool by the following command
 line:
 
 ```console
-% sudo /usr/local/bin/docker-compose \
-    --file /var/lib/chupa-text/docker-compose.yml \
+% sudo /usr/bin/docker compose \
+    --file /var/lib/chupa-text/compose.yaml \
     exec chupa-text \
       xvfb-run -a chupa-text /tmp/sample.pdf
 ```
@@ -179,8 +177,8 @@ If your user is a member of `docker` group, you can omit `sudo` like
 the following:
 
 ```console
-$ /usr/local/bin/docker-compose \
-    --file /var/lib/chupa-text/docker-compose.yml \
+$ /usr/bin/docker compose \
+    --file /var/lib/chupa-text/compose.yaml \
     exec chupa-text \
       xvfb-run -a chupa-text /tmp/sample.pdf
 ```
