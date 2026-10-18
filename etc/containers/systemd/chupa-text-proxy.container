@@ -1,0 +1,17 @@
+[Unit]
+Description=ChupaText - Proxy for text extraction service
+PartOf=chupa-text.service
+
+[Container]
+Image=ghcr.io/ranguba/chupa-text-docker:proxy
+ContainerName=chupa-text-proxy
+Network=chupa-text.network
+Exec=./start.sh
+Volume=/var/log/chupa-text/proxy:/var/log/squid:z
+
+[Service]
+Restart=always
+TimeoutSec=5min
+
+[Install]
+WantedBy=multi-user.target

@@ -79,3 +79,70 @@ jobs:
         if: failure()
         run: |
           sudo journalctl --unit chupa-text --no-pager || :
+  quadlet:
+    name: Quadlet
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install
+        run: |
+          sudo cp -a "${GITHUB_WORKSPACE}" /var/lib/chupa-text
+          sudo mkdir -p \
+            /var/log/chupa-text/proxy \
+            /var/log/chupa-text/rails
+          sudo mkdir -p /etc/containers/systemd
+          for path in /var/lib/chupa-text/etc/containers/systemd/*; do
+            sudo ln -fs "${path}" /etc/containers/systemd/
+          done
+          sudo /usr/libexec/podman/quadlet -dryrun
+          sudo systemctl daemon-reload
+      - name: Test start
+        run: |
+          sudo systemctl start chupa-text
+          sudo systemctl status chupa-text chupa-text-proxy
+          curl \
+            --silent \
+            --show-error \
+            --fail-with-body \
+            --retry 10 \
+            --retry-delay 10 \
+            --retry-all-errors \
+            http://127.0.0.1:20080/up
+      - name: Test restart
+        run: |
+          sudo systemctl restart chupa-text
+          sudo systemctl status chupa-text chupa-text-proxy
+          curl \
+            --silent \
+            --show-error \
+            --fail-with-body \
+            --retry 10 \
+            --retry-delay 10 \
+            --retry-all-errors \
+            http://127.0.0.1:20080/up
+      - name: Test auto restart
+        run: |
+          sudo podman container kill chupa-text-proxy
+          sudo podman container kill chupa-text
+          curl \
+            --silent \
+            --show-error \
+            --fail-with-body \
+            --retry 10 \
+            --retry-delay 10 \
+            --retry-all-errors \
+            http://127.0.0.1:20080/up
+          sudo systemctl status chupa-text chupa-text-proxy
+      - name: Test stop
+        run: |
+          sudo systemctl stop chupa-text
+          sudo systemctl status chupa-text chupa-text-proxy || :
+          test -z "$(sudo podman container ps --quiet)"
+      - name: Show logs
+        if: failure()
+        run: |
+          sudo journalctl \
+            --unit chupa-text \
+            --unit chupa-text-proxy \
+            --unit chupa-text-network \
+            --no-pager || :

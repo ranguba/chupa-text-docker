@@ -1,0 +1,23 @@
+[Unit]
+Description=ChupaText - Text extraction service
+Requires=chupa-text-proxy.service
+After=chupa-text-proxy.service
+
+[Container]
+Image=ghcr.io/ranguba/chupa-text-docker:ubuntu-latest
+ContainerName=chupa-text
+Network=chupa-text.network
+Exec=./start.sh
+PublishPort=127.0.0.1:20080:3000
+Environment=http_proxy=http://chupa-text-proxy:3128/
+Environment=https_proxy=http://chupa-text-proxy:3128/
+Environment=RAILS_SERVE_STATIC_FILES=true
+EnvironmentFile=/var/lib/chupa-text/chupa-text.env
+Volume=/var/log/chupa-text/rails:/home/chupa-text/chupa-text-http-server/log:z
+
+[Service]
+Restart=always
+TimeoutSec=5min
+
+[Install]
+WantedBy=multi-user.target
