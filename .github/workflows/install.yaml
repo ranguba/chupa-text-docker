@@ -1,0 +1,81 @@
+# Copyright (C) 2026  Abe Tomoaki <abe@clear-code.com>
+#
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation; either
+# version 2.1 of the License, or (at your option) any later version.
+#
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public
+# License along with this library; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+
+name: Install
+on:
+  - push
+  - pull_request
+concurrency:
+  group: ${{ github.head_ref || github.sha }}-${{ github.workflow }}
+  cancel-in-progress: true
+jobs:
+  systemd:
+    name: systemd
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install
+        run: |
+          sudo cp -a "${GITHUB_WORKSPACE}" /var/lib/chupa-text
+          sudo mkdir -p /var/log/chupa-text
+          sudo ln -fs \
+            /var/lib/chupa-text/usr/lib/systemd/system/chupa-text.service \
+                               /usr/lib/systemd/system/chupa-text.service
+          sudo systemctl daemon-reload
+      - name: Test start
+        run: |
+          sudo systemctl start chupa-text
+          sudo systemctl status chupa-text
+          curl \
+            --silent \
+            --show-error \
+            --fail-with-body \
+            --retry 10 \
+            --retry-delay 10 \
+            --retry-all-errors \
+            http://127.0.0.1:20080/up
+      - name: Test restart
+        run: |
+          sudo systemctl restart chupa-text
+          sudo systemctl status chupa-text
+          curl \
+            --silent \
+            --show-error \
+            --fail-with-body \
+            --retry 10 \
+            --retry-delay 10 \
+            --retry-all-errors \
+            http://127.0.0.1:20080/up
+      - name: Test auto restart
+        run: |
+          sudo docker compose --file /var/lib/chupa-text/compose.yaml kill chupa-text
+          curl \
+            --silent \
+            --show-error \
+            --fail-with-body \
+            --retry 10 \
+            --retry-delay 10 \
+            --retry-all-errors \
+            http://127.0.0.1:20080/up
+      - name: Test stop
+        run: |
+          sudo systemctl stop chupa-text
+          sudo systemctl status chupa-text || :
+          test -z "$(sudo docker compose --file /var/lib/chupa-text/compose.yaml ps --quiet)"
+      - name: Show logs
+        if: failure()
+        run: |
+          sudo journalctl --unit chupa-text --no-pager || :
