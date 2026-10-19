@@ -1,0 +1,5 @@
+[Unit]
+Description=ChupaText - Network for text extraction service
+
+[Network]
+Subnet=172.19.0.0/24
