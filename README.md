@@ -258,6 +258,52 @@ $ sudo -H podman container exec chupa-text \
 
 Command line interface uses the same JSON format as Web API.
 
+## Upgrade
+
+### To version 2026.10.20.0
+
+Since 2026.10.20.0, `docker compose` is used instead of `docker-compose`.
+
+And `lib/systemd/system/chupa-text.service` is removed.
+Use `usr/lib/systemd/system/chupa-text.service` instead.
+
+If you already use ChupaText, upgrade by the following steps.
+
+Stop ChupaText.
+You need to stop it before updating this repository because the old systemd service file uses `docker-compose`:
+
+```console
+$ sudo -H systemctl stop chupa-text
+```
+
+Switch to `docker compose` by following the official documentation:
+
+https://docs.docker.com/compose/install/
+
+Update this repository:
+
+```console
+$ cd /var/lib/chupa-text
+$ sudo -H git pull
+```
+
+If you use `/lib/systemd/system/chupa-text.service`, remove it:
+
+```console
+$ sudo -H rm -f /lib/systemd/system/chupa-text.service
+```
+
+Re-install systemd service file and start ChupaText:
+
+```console
+$ sudo -H ln -fs \
+    /var/lib/chupa-text/usr/lib/systemd/system/chupa-text.service \
+                       /usr/lib/systemd/system/chupa-text.service
+$ sudo -H systemctl daemon-reload
+$ sudo -H docker compose --file /var/lib/chupa-text/compose.yaml pull
+$ sudo -H systemctl enable --now chupa-text
+```
+
 ## Author
 
   * Sutou Kouhei `<kou@clear-code.com>`
