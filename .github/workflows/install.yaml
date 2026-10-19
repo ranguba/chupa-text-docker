@@ -146,3 +146,68 @@ jobs:
             --unit chupa-text-proxy \
             --unit chupa-text-network \
             --no-pager || :
+  quadlet-drop-in:
+    name: Quadlet with drop-in
+    # To use Podman 5.x, specify `ubuntu-26.04`.
+    # If `ubuntu-latest` starts using `ubuntu-26.04`, update it to `ubuntu-latest`.
+    # The current version of `ubuntu-latest` is `ubuntu-24.04`, and Podman is 4.x.
+    # You cannot use drop-in with version 4.x.
+    runs-on: ubuntu-26.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install
+        run: |
+          sudo cp -a "${GITHUB_WORKSPACE}" /var/lib/chupa-text
+          sudo mkdir -p \
+            /var/log/chupa-text/proxy \
+            /var/log/chupa-text/rails
+          sudo mkdir -p /etc/containers/systemd
+          for path in /var/lib/chupa-text/etc/containers/systemd/*.{container,network}; do
+            sudo ln -fs "${path}" /etc/containers/systemd/
+          done
+          # drop-in
+          sudo mkdir -p \
+            /etc/containers/systemd/chupa-text.container.d \
+            /etc/containers/systemd/chupa-text.network.d
+          sudo tee /etc/containers/systemd/chupa-text.container.d/image.conf <<CONF
+          [Container]
+          Image=ghcr.io/ranguba/chupa-text-docker:debian-latest
+          CONF
+          sudo tee /etc/containers/systemd/chupa-text.network.d/subnet.conf <<CONF
+          [Network]
+          Subnet=
+          Subnet=172.20.0.0/24
+          CONF
+
+          sudo /usr/libexec/podman/quadlet -dryrun
+          sudo systemctl daemon-reload
+      - name: Test start
+        run: |
+          sudo systemctl start chupa-text
+          sudo systemctl status chupa-text chupa-text-proxy
+          curl \
+            --silent \
+            --show-error \
+            --fail-with-body \
+            --retry 10 \
+            --retry-delay 10 \
+            --retry-all-errors \
+            http://127.0.0.1:20080/up
+      - name: Test image
+        run: |
+          image=$(sudo podman container inspect chupa-text | jq -r '.[0].ImageName')
+          echo "${image}"
+          test "${image}" = "ghcr.io/ranguba/chupa-text-docker:debian-latest"
+      - name: Test subnet
+        run: |
+          subnet=$(sudo podman network inspect systemd-chupa-text | jq -r '.[0].subnets[].subnet')
+          echo "${subnet}"
+          test "${subnet}" = "172.20.0.0/24"
+      - name: Show logs
+        if: failure()
+        run: |
+          sudo journalctl \
+            --unit chupa-text \
+            --unit chupa-text-proxy \
+            --unit chupa-text-network \
+            --no-pager || :
