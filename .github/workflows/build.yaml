@@ -53,7 +53,7 @@ jobs:
           context: chupa-text/${{ matrix.id }}
           load: true
           tags: ${{ env.TAGS }}
-      - name: Test
+      - name: Test with Docker
         run: |
           docker container run \
             --detach \
@@ -72,14 +72,42 @@ jobs:
             http://127.0.0.1:20080/extraction.json | \
             tee response.json
           jq --exit-status '[.texts[].body] == ["Page1"]' response.json
-      - name: Show logs
+      - name: Show logs with Docker
         if: failure()
         run: |
           docker container logs chupa-text || :
-      - name: Clean up
+      - name: Clean up with Docker
         if: always()
         run: |
           docker container rm -f chupa-text || :
+      - name: Test with Podman
+        run: |
+          docker image save "${TAGS}" | podman image load
+          podman container run \
+            --detach \
+            --rm \
+            --name chupa-text \
+            --publish 127.0.0.1:20080:3000 \
+            "${TAGS}"
+          curl \
+            --silent \
+            --show-error \
+            --fail-with-body \
+            --retry 10 \
+            --retry-delay 10 \
+            --retry-all-errors \
+            --form "data=@chupa-text-source/test/fixture/docx/one-page.docx;type=application/vnd.openxmlformats-officedocument.wordprocessingml.document" \
+            http://127.0.0.1:20080/extraction.json | \
+            tee response.json
+          jq --exit-status '[.texts[].body] == ["Page1"]' response.json
+      - name: Show logs with Podman
+        if: failure()
+        run: |
+          podman container logs chupa-text || :
+      - name: Clean up with Podman
+        if: always()
+        run: |
+          podman container rm -f chupa-text || :
       - uses: docker/build-push-action@v7
         id: docker_build
         with:
@@ -110,7 +138,7 @@ jobs:
           context: proxy
           load: true
           tags: ${{ env.TAGS }}
-      - name: Test
+      - name: Test with Docker
         run: |
           docker container run \
             --detach \
@@ -129,14 +157,42 @@ jobs:
             https://raw.githubusercontent.com/${GITHUB_REPOSITORY}/${GITHUB_SHA}/.gitignore | \
             tee response.txt
           diff -u .gitignore response.txt
-      - name: Show logs
+      - name: Show logs with Docker
         if: failure()
         run: |
           docker container logs proxy || :
-      - name: Clean up
+      - name: Clean up with Docker
         if: always()
         run: |
           docker container rm -f proxy || :
+      - name: Test with Podman
+        run: |
+          docker image save "${TAGS}" | podman image load
+          podman container run \
+            --detach \
+            --rm \
+            --name proxy \
+            --publish 127.0.0.1:3128:3128 \
+            "${TAGS}"
+          curl \
+            --silent \
+            --show-error \
+            --fail-with-body \
+            --retry 15 \
+            --retry-delay 2 \
+            --retry-all-errors \
+            --proxy http://127.0.0.1:3128/ \
+            https://raw.githubusercontent.com/${GITHUB_REPOSITORY}/${GITHUB_SHA}/.gitignore | \
+            tee response.txt
+          diff -u .gitignore response.txt
+      - name: Show logs with Podman
+        if: failure()
+        run: |
+          podman container logs proxy || :
+      - name: Clean up with Podman
+        if: always()
+        run: |
+          podman container rm -f proxy || :
       - uses: docker/build-push-action@v7
         id: docker_build
         with:
