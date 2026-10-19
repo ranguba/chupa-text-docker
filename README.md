@@ -32,7 +32,7 @@ $ sudo -H docker compose pull
 ```
 
 If you want to change subnet for internal network from
-`172.18.0.0/24`, copy `.env.example` to `.env` and change the content:
+`172.19.0.0/24`, copy `.env.example` to `.env` and change the content:
 
 ```console
 $ cd /var/lib/chupa-text
