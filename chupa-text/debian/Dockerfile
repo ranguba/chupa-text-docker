@@ -73,7 +73,7 @@ WORKDIR /home/chupa-text
 
 ENV RAILS_ENV=production
 
-ENV CHUPA_TEXT_DOCKER_VERSION=2025.1.10.0
+ENV CHUPA_TEXT_DOCKER_VERSION=2026.10.20.0
 RUN git clone --depth 1 https://github.com/ranguba/chupa-text-http-server.git
 
 COPY \
