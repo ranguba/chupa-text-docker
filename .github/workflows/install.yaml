@@ -26,7 +26,7 @@ jobs:
     name: systemd
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Install
         run: |
           sudo cp -a "${GITHUB_WORKSPACE}" /var/lib/chupa-text
@@ -83,7 +83,7 @@ jobs:
     name: Quadlet
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Install
         run: |
           sudo cp -a "${GITHUB_WORKSPACE}" /var/lib/chupa-text
@@ -154,7 +154,7 @@ jobs:
     # You cannot use drop-in with version 4.x.
     runs-on: ubuntu-26.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Install
         run: |
           sudo cp -a "${GITHUB_WORKSPACE}" /var/lib/chupa-text
