@@ -27,6 +27,7 @@ ulimit -n 65535
 sed \
   -i'' \
   -e 's/^http_access deny all/http_access allow all/g' \
+  -e 's/^# shutdown_lifetime .*/shutdown_lifetime 3 seconds/g' \
   /etc/squid/squid.conf
 
-/usr/sbin/squid -N
+exec /usr/sbin/squid -N
