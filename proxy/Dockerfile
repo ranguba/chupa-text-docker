@@ -32,4 +32,4 @@ RUN \
 
 COPY start.sh /
 
-CMD ./start.sh
+CMD ["./start.sh"]
